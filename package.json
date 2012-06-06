@@ -1,0 +1,10 @@
+{
+  "name": "jadeite",
+  "version": "0.0.0",
+  "dependencies": {
+    "jade": "latest"
+  },
+  "engines": {
+    "node": "*"
+  }
+}

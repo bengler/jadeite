@@ -1,6 +1,16 @@
 *.gem
 *.rbc
 .bundle
+/tmp
+.DS_Store
+.rvmrc
+*~
+coverage/
+.idea
+node_modules
+npm-debug.log
+/.sass-cache
+/log/*
 .config
 .yardoc
 Gemfile.lock

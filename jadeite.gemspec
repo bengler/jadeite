@@ -16,6 +16,8 @@ Gem::Specification.new do |gem|
   gem.require_paths     = ["lib"]
   gem.version           = Jadeite::VERSION
 
+  gem.extensions = "Rakefile"
+
   gem.add_dependency "therubyracer"
 
   gem.add_development_dependency "rspec"

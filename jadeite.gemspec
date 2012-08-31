@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+$:.push File.expand_path("../lib", __FILE__)
 require File.expand_path('../lib/jadeite/version', __FILE__)
 
 Gem::Specification.new do |gem|

@@ -1,32 +1,44 @@
 require 'benchmark'
-require 'tilt'
 require '../lib/jadeite'
+require '../lib/jadeite/environment'
 
 TEMPLATES = {
   :form => {
     :user => {}
   },
-  :"include-mixin"=> {
+  :"include-mixin" => {
 
   },
-  :includes=> {
+  :includes => {
 
   }
 }
+OPTIONS = [
+  {
+    cache: true
+  },
+  {
+    cache: false
+  }
+]
+
 def measure(times, title, &blk)
   puts
   puts "=== #{title} - #{times} times each"
-  TEMPLATES.each do |name, data|
-    file = "./templates/#{name}.jade"
-    puts "=> #{name} (#{file})"
-    blk.call(times, file, data)
-    puts
+  OPTIONS.each do |opts|
+    puts "--- Options: #{opts}"
+    TEMPLATES.each do |name, data|
+      file = "./templates/#{name}.jade"
+      puts "=> #{name} (#{file})"
+      blk.call(times, file, data, opts)
+      puts
+    end
   end
 end
 
-measure 10000, "Render precompiled templates" do |times, file, data|
+measure 10000, "Render precompiled templates" do |times, file, data, options|
   puts Benchmark.measure {
-    env = Jadeite::Environment.new
+    env = Jadeite::Environment.new(options)
     compiled = env.compile_file(file)
     times.times do
       compiled.render data

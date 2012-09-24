@@ -2,14 +2,15 @@ require 'json'
 require 'pathname'
 module NodeJS
   class Environment
-    def initialize(runtime, base_path)
-      @runtime = runtime
+    def initialize(context, base_path)
+      @context = context
       @base_path = Pathname(base_path)
       @cache = {}
+      @context.eval("var process = {env: {}}")
     end
 
     def new_object
-      @runtime['Object'].new
+      @context['Object'].new
     end
 
     def require(module_or_path)
@@ -22,7 +23,7 @@ module NodeJS
 
       mod = @cache[file] = Module.new(self, file)
 
-      loader = @runtime.eval("(function(module, require, exports) {#{File.read(file)}});", file.to_s)
+      loader = @context.eval("(function(module, require, exports) {#{File.read(file)}});", file.to_s)
       loader.call(mod, mod.require_function, mod.exports)
       mod.exports
     end

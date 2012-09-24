@@ -1,6 +1,7 @@
+require 'bundler'
+Bundler.require
+require 'jadeite'
 require 'benchmark'
-require '../lib/jadeite'
-require '../lib/jadeite/environment'
 
 TEMPLATES = {
   :form => {

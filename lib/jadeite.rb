@@ -1,5 +1,5 @@
+require "nodejs"
 module Jadeite
+  require "jadeite/environment"
+  require "jadeite/version"
 end
-
-require "jadeite/version"
-require "jadeite/environment"

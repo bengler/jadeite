@@ -1,5 +1,3 @@
-require "nodejs/environment"
-require "nodejs/module"
 module NodeJS
   @builtins = {}
   def self.register_builtin(sym, klass)
@@ -8,6 +6,7 @@ module NodeJS
   def self.builtins
     @builtins
   end
-
+  require "nodejs/environment"
+  require "nodejs/module"
   require "nodejs/builtins"
 end

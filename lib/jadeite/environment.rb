@@ -22,17 +22,24 @@ module Jadeite
 
       # Setup V8 context
       @context = V8::Context.new
-      @context.eval("var process = {env: {}}")
 
       # Load jade-runtime
-      @context.load(File.expand_path(File.join('../../../', 'node_modules/jade/runtime.js'), __FILE__))
-
       node_env = NodeJS::Environment.new(@context, File.expand_path('../../', __FILE__))
+      @context['jade'] = node_env.require('jade-runtime').runtime
       @jade = node_env.require('jade')
     end
 
     def compile(template_str, opts={})
-      Template.new(@jade.compile(template_str.strip, compile_options.merge(opts)))
+      opts = compile_options.merge(opts)
+      compiled = if cache?
+        cached = cached_read(template_str, opts) do
+          @jade.compile(template_str, opts.merge(client: true))
+        end
+        @context.eval(cached)
+      else
+        @jade.compile(template_str.strip, compile_options.merge(opts))
+      end
+      Template.new(compiled)
     end
 
     def render(template_str, data={}, opts={})
@@ -40,19 +47,7 @@ module Jadeite
     end
 
     def compile_file(file, opts = {})
-
-      opts = compile_options.merge(opts)
-      opts[:filename] = File.expand_path(file)
-
-      if cache?
-        cached = cached_read(file) do
-          opts[:client] = true
-          compile(File.read(file), opts)
-        end
-        Template.new(@context.eval(cached))
-      else
-        compile(File.read(file), opts)
-      end
+      compile(File.read(file), opts.merge(filename: File.expand_path(file)))
     end
 
     def render_file(file, data={}, opts = {})
@@ -73,10 +68,8 @@ module Jadeite
 
     private
 
-    def cached_read(file, &blk)
-      # Todo: make compile options a part of the hash
-      cache_file = File.join(cache_dir, "#{Digest::MD5.file(file)}.jade.js")
-
+    def cached_read(template_str, opts, &blk)
+      cache_file = File.join(cache_dir, "#{Digest::MD5.hexdigest("#{template_str}#{opts.inspect}")}.jade.js")
       if File.exists?(cache_file)
         File.read(cache_file)
       else

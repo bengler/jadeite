@@ -3,8 +3,8 @@ require 'jadeite'
 
 describe "Jadeite" do
   let(:template_str) {
-    <<-jade
-      p Hello \#{who}
+    <<-jade.strip
+    p Hello \#{who}
       - if (awesome)
         em Pretty awesome
       p=a.nested.title

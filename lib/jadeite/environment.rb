@@ -27,18 +27,18 @@ module Jadeite
       node_env = NodeJS::Environment.new(@context, File.expand_path('../../', __FILE__))
       @context['jade'] = node_env.require('jade-runtime').runtime
       @jade = node_env.require('jade')
+
+      # Create a new object in V8 that will keep a cached copy of compiled templates
+      @cache = @context['Object'].new
     end
 
     def compile(template_str, opts={})
       opts = compile_options.merge(opts)
       compiled = if cache?
-        cached = cached_read(template_str, opts) do
-          @jade.compile(template_str, opts.merge(client: true))
-        end
-        @context.eval(cached)
-      else
-        @jade.compile(template_str.strip, compile_options.merge(opts))
-      end
+                   cached_read(template_str, opts) { @jade.compile(template_str, opts) }
+                 else
+                   @jade.compile(template_str.strip, compile_options.merge(opts))
+                 end
       Template.new(compiled)
     end
 
@@ -69,16 +69,9 @@ module Jadeite
     private
 
     def cached_read(template_str, opts, &blk)
-      cache_file = File.join(cache_dir, "#{Digest::MD5.hexdigest("#{template_str}#{opts.inspect}")}.jade.js")
-      if File.exists?(cache_file)
-        File.read(cache_file)
-      else
-        File.open(cache_file, "w") do |f|
-          cached = "(#{blk.call});"
-          f.write(cached)
-          cached
-        end
-      end
+      key = Digest::MD5.hexdigest("#{template_str}#{opts.inspect}")
+      @cache[key] = blk.call unless @cache[key]
+      @cache[key]
     end
   end
 

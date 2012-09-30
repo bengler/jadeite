@@ -7,6 +7,5 @@ module NodeJS
     @builtins
   end
   require "nodejs/environment"
-  require "nodejs/module"
   require "nodejs/builtins"
 end

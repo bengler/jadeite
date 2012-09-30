@@ -18,7 +18,7 @@ describe "Jadeite" do
   }
 
   let(:env) {
-    Jadeite::Environment.new
+    Jadeite::Environment.instance
   }
   let(:fixtures_path) {"./spec/fixtures"}
 
@@ -74,6 +74,6 @@ describe "Jadeite" do
   end
 
   it "Returns a string of the compiled template" do
-    env.compile("p", :client => true, :compileDebug => false).to_s.should eq "function anonymous(locals, attrs, escape, rethrow, merge) {\nattrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;\nvar buf = [];\nwith (locals || {}) {\nvar interp;\nbuf.push('<p></p>');\n}\nreturn buf.join(\"\");\n}"
+    env.compile("p", :client => true, :compileDebug => false).to_s.should match Regexp.escape("function anonymous(locals, attrs, escape, rethrow, merge) {\nattrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;\nvar buf = [];\nwith (locals || {}) {\nvar interp;\nbuf.push('<p></p>');\n}\nreturn buf.join(\"\");")
   end
 end

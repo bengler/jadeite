@@ -14,6 +14,9 @@ module NodeJS
     :basename => lambda { |this, *args|
       File.basename(*args)
     },
+    :extname => lambda { |this, *args|
+      File.extname(*args)
+    },
     :join => lambda { |this, *args|
       File.join(*args)
     }

@@ -8,6 +8,8 @@ ___  /  \__,_/ \__,_/  \___//_/  \__/ \___/
 
 ```
 
+[![Build Status](https://semaphoreapp.com/api/v1/projects/36a547252959a65eeb492fea1278fb77c3473d4e/28284/badge.png)](https://semaphoreapp.com/projects/1581/branches/28284)
+
 Jadeite lets you compile and render [Jade](http://jade-lang.com) templates from your Ruby code.
 Under the hood it uses the Jade node module running in
 [therubyracer's](https://github.com/cowboyd/therubyracer) embedded V8 JavaScript engine.

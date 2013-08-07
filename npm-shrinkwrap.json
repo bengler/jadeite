@@ -7,8 +7,8 @@
       "from": "jade-runtime@latest"
     },
     "jade": {
-      "version": "0.28.1",
-      "from": "jade@0.28.1",
+      "version": "0.29.0",
+      "from": "jade@0.29",
       "dependencies": {
         "commander": {
           "version": "0.6.1",
@@ -18,9 +18,51 @@
           "version": "0.3.5",
           "from": "mkdirp@0.3.x"
         },
-        "coffee-script": {
-          "version": "1.4.0",
-          "from": "coffee-script@~1.4.0"
+        "transformers": {
+          "version": "1.8.3",
+          "from": "transformers@~1.8.0",
+          "dependencies": {
+            "promise": {
+              "version": "2.0.0",
+              "from": "promise@~2.0",
+              "dependencies": {
+                "is-promise": {
+                  "version": "1.0.0",
+                  "from": "is-promise@~1"
+                }
+              }
+            }
+          }
+        },
+        "character-parser": {
+          "version": "1.0.2",
+          "from": "character-parser@~1.0.0"
+        },
+        "monocle": {
+          "version": "0.1.50",
+          "from": "monocle@~0.1.43",
+          "dependencies": {
+            "readdirp": {
+              "version": "0.2.5",
+              "from": "readdirp@~0.2.3",
+              "dependencies": {
+                "minimatch": {
+                  "version": "0.2.12",
+                  "from": "minimatch@>=0.2.4",
+                  "dependencies": {
+                    "lru-cache": {
+                      "version": "2.3.0",
+                      "from": "lru-cache@2"
+                    },
+                    "sigmund": {
+                      "version": "1.0.0",
+                      "from": "sigmund@~1.0.0"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }

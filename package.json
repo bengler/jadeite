@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "dependencies": {
     "jade-runtime": "0.0.2",
-    "jade": "~0.28.1"
+    "jade": "~0.29.0"
   },
   "engines": {
     "node": "*"

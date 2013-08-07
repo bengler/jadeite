@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "dependencies": {
     "jade-runtime": {
-      "version": "0.0.1",
-      "from": "jade-runtime@git://github.com/bjoerge/jade-runtime"
+      "version": "0.0.2",
+      "from": "jade-runtime@latest"
     },
     "jade": {
       "version": "0.28.1",
